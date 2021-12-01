@@ -7,6 +7,7 @@
   <br><br>
   <img src="https://media.discordapp.net/attachments/915556934977998879/915638949031055390/93b162fb8e850c1a.png?width=400&height=144">
 </p>
+
 # 📜 봇이름
 
 ## 짱구봇
