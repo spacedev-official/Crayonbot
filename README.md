@@ -5,7 +5,7 @@
   <b>🔗 Some Links 🔗</b><br>
   <a href="https://discord.gg/Jk6VRvsnqa">Official Support Server</a>
   <br><br>
-  <img src="https://media.discordapp.net/attachments/915556934977998879/915638949031055390/93b162fb8e850c1a.png?width=400&height=144">
+  <img src="https://cdn.discordapp.com/attachments/915556934977998879/915638949031055390/93b162fb8e850c1a.png">
 </p>
 
 # 📜 봇이름
