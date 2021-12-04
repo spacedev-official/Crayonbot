@@ -51,7 +51,14 @@ class general(commands.Cog):
             description=f"{guild.name}({guild.id})에 접속함\n서버수 : {len(self.bot.guilds)}"
         )
         await self.bot.get_channel(915551578730164234).send(embed=em)
-
+    @commands.command(name="출처")
+    async def chul(self, ctx):
+        embed=discord.Embed(name="깃헙", dscription=f"""
+[서포트서버](https://discord.gg/Jk6VRvsnqa)
+[짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot)
+옵션&생일&입장메시지&레벨링&초대정보등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다.
+[하린봇깃헙](https://github.com/spacedev-official/harin)        
+        """, colour=discord.Colour.random)
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         await self.bot.change_presence(status=discord.Status.online,
