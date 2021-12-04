@@ -49,6 +49,8 @@ class help(commands.Cog):
 
 [짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot)
 [서포트서버](https://discord.gg/Jk6VRvsnqa)
+옵션&생일&입장메시지&레벨링&초대정보등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다.
+[하린봇깃헙](https://github.com/spacedev-official/harin)
             
         """,
         colour=discord.Colour.random()
