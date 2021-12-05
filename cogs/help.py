@@ -38,11 +38,10 @@ class help(commands.Cog):
 
 1️⃣|1. 메인페이지
 2️⃣|2. 서버관리페이지 🔰 
-3️⃣|3. 코로나페이지 🧬
-4️⃣|4. 유틸리티페이지 🧰
-5️⃣|5. 게임페이지 🕹️
-6️⃣|6. 음악 🎵
-7️⃣|7. 도박 💴       
+3️⃣|3. 유틸리티페이지 🧰
+4️⃣|4. 게임페이지 🕹️
+5️⃣|5. 음악 🎵
+6️⃣|6. 도박 💴       
 
 
 ``문의는 봇DM으로 해주시면 감사합니다!``
@@ -55,7 +54,7 @@ class help(commands.Cog):
         """,
         colour=discord.Colour.random()
         )
-        main.set_footer(text=f"1 / 7페이지",icon_url=ctx.author.avatar_url)
+        main.set_footer(text=f"1 / 6페이지",icon_url=ctx.author.avatar_url)
 
 
         manage = discord.Embed(
@@ -91,7 +90,7 @@ class help(commands.Cog):
         manage.add_field(name="짱구야 티켓설정 [#티켓채널] [@지원팀역할] [티켓안내내용]",
                         value="```\n티켓을 설정해서 문의를 받아보세요!\n```",
                         inline=False)
-        manage.set_footer(text=f"2 / 7페이지",icon_url=ctx.author.avatar_url)
+        manage.set_footer(text=f"2 / 6페이지",icon_url=ctx.author.avatar_url)
 
 
         utili = discord.Embed(
@@ -131,7 +130,7 @@ class help(commands.Cog):
                         value="```\n여러 기능을 설정할 수 있는 명령어에요!\n```",
                         inline=False)
         
-        utili.set_footer(text=f"4 / 7페이지",icon_url=ctx.author.avatar_url)
+        utili.set_footer(text=f"3 / 6페이지",icon_url=ctx.author.avatar_url)
 
         games=discord.Embed(
             title="게임 🕹️",
@@ -147,7 +146,7 @@ class help(commands.Cog):
         games.add_field(name="천상아 주사위",
                         value="```\n주사위를 돌려 누가 많이 나오는지 \n 내기를 해보세요!\n```",
                         inline=False)
-        games.set_footer(text=f"5 / 7페이지",icon_url=ctx.author.avatar_url)
+        games.set_footer(text=f"4 / 6페이지",icon_url=ctx.author.avatar_url)
 
         music=discord.Embed(
             title="음악 🎵",
@@ -196,7 +195,7 @@ class help(commands.Cog):
             value="```\n셔플기능을 활성화하거나 비활성화해요.\n```",
             inline=False
         )
-        music.set_footer(text=f"6 / 7페이지",icon_url=ctx.author.avatar_url)
+        music.set_footer(text=f"5 / 6페이지",icon_url=ctx.author.avatar_url)
         eco=discord.Embed(
             title="도박 💴",
             description="""
@@ -225,7 +224,7 @@ class help(commands.Cog):
         eco.add_field(name="짱구야 도박 [돈]",
                     value="```\n도박을 해서 돈을 벌어보세요!\n```",
                     inline=False)
-        eco.set_footer(text=f"7 / 7페이지",icon_url=ctx.author.avatar_url)
+        eco.set_footer(text=f"6 / 6페이지",icon_url=ctx.author.avatar_url)
         desc = {
             "메인 페이지": "메뉴가 있는 메인페이지",
             "서버 관리 🔰": "서버 관리 명령어가 있는 페이지.",
