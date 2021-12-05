@@ -225,21 +225,19 @@ class Database(commands.Cog, name = "봇 경제 명령어", description = "봇 �
                 getmoney = int(money) * -1
                 lostmoney = int(money)
 
-                                #await ctx.send(f"{data}") # 유일하게 여기만 user에 노란줄이 없음 왜이럴까
+                                #await ctx.send(f"{data}")
             print(original_money)
             print(getmoney, date[0])
             print(type(original_money))
-            # print(type(getmoney, date[0])) # 얘는 안나오잖아 아 뭔지 알았어
+            # print(type(getmoney, date[0])) 
             print((int(original_money) + int(getmoney)))
             print(type(int(original_money) + int(getmoney)))
-                # ? 잠만 왜 저게 getmoney, date 두개가 한개 안에 들어가있어
             try:
-                cur.execute("UPDATE USERS SET money = ? WHERE id = ?",(int(original_money) + int(getmoney),ctx.author.id)) # ㅌㅌ ?
+                cur.execute("UPDATE USERS SET money = ? WHERE id = ?",(int(original_money) + int(getmoney),ctx.author.id)) 
             except:
                 print(traceback.format_exc())
-                #cur.execute("UPDATE USERS SET username = ? WHERE id = ?",(getmoney,date[0])) # 하셈
-                    #cur.execute(f'UPDATE USERS SET MONEY = {user[2] + getmoney} WHERE id =\'{user[0]}\'') # 위에서는 user에서 노란줄이 뜨는데 여기만 안떠
-                    # 실행해봐
+                #cur.execute("UPDATE USERS SET username = ? WHERE id = ?",(getmoney,date[0]))
+                    #cur.execute(f'UPDATE USERS SET MONEY = {user[2] + getmoney} WHERE id =\'{user[0]}\'')
             con.commit()
 
             if on == 1:
