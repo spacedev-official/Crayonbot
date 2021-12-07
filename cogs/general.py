@@ -40,7 +40,7 @@ class general(commands.Cog):
         )
         em.set_thumbnail(url=self.bot.user.avatar_url)
         em.set_image(
-            url="https://media.discordapp.net/attachments/889514827905630290/896359450544308244/37cae031dc5a6c40.png")
+            url="https://cdn.discordapp.com/attachments/915556934977998879/917754253701951499/c265877614d80026.png")
         try:
             await guild.owner.send(embed=em)
         except errors.HTTPException:  # errors.Forbidden when does not have permission
