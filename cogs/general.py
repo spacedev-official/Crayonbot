@@ -19,7 +19,15 @@ class general(commands.Cog):
     )
     async def ping(self, ctx):
         await ctx.send(embed = discord.Embed(title = "**Pong!**", description = f":ping_pong: {round(self.bot.latency) * 1000}ms", color= 0x0000ff))
-
+    @commands.command(name="출처")
+    async def chul(self, ctx):
+        embed=discord.Embed(name="깃헙", dscription=f"""
+[서포트서버](https://discord.gg/Jk6VRvsnqa)
+[짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot)
+옵션&생일&입장메시지&레벨링&초대정보&하트인증등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다.
+[하린봇깃헙](https://github.com/spacedev-official/harin)        
+        """, colour=discord.Colour.random)
+        await ctx.reply(embed=embed)
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         if guild.owner.id == 898755879766204416:
