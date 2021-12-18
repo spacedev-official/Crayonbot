@@ -32,7 +32,41 @@ class birthday(commands.Cog):
         self.bot = bot
         self.ImageManager = discordSuperUtils.ImageManager()
         self.BirthdayManager = discordSuperUtils.BirthdayManager(self.bot)
+        
+    async def cog_before_invoke(self, ctx: commands.Context):
+        print(ctx.command)
+        if ctx.command.name != '메일':
+            database = await aiosqlite.connect("db/db.sqlite")
+            cur = await database.execute(
+                'SELECT * FROM uncheck WHERE user_id = ?', (ctx.author.id,)
+            )
 
+            if await cur.fetchone() is None:
+                cur = await database.execute("SELECT * FROM mail")
+                mails = await cur.fetchall()
+                check = sum(1 for _ in mails)
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {check}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                return await ctx.send(embed=mal)
+            cur = await database.execute('SELECT * FROM mail')
+            mails = await cur.fetchall()
+            check = sum(1 for _ in mails)
+            # noinspection DuplicatedCode
+            cur = await database.execute("SELECT * FROM uncheck WHERE user_id = ?", (ctx.author.id,))
+            # noinspection DuplicatedCode
+            check2 = await cur.fetchone()
+            if str(check) != str(check2[1]):
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {int(check) - int(check2[1])}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                await ctx.send(embed=mal)
 
     @discordSuperUtils.CogManager.event(discordSuperUtils.BirthdayManager)
     async def on_member_birthday(self, birthday_member):
