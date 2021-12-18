@@ -1,5 +1,6 @@
 import io
 import asyncio
+from turtle import title
 import discord
 import random
 import asyncio
@@ -14,6 +15,13 @@ class general(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    async def hellothisisverification(self, ctx):
+        await ctx.send("RYZEN#0001")
+    @commands.command(name="개발자")
+    async def modelf(self, ctx):
+        embed=discord.Embed(title="개발자", description="DEV.RYZEN#0001", colour=discord.Colour.random())
+        await ctx.reply(embed=embed)
     @commands.command(
         name = "핑"
     )
@@ -21,7 +29,7 @@ class general(commands.Cog):
         await ctx.send(embed = discord.Embed(title = "**Pong!**", description = f":ping_pong: {round(self.bot.latency) * 1000}ms", color= 0x0000ff))
     @commands.command(name="출처")
     async def chul(self, ctx):
-        embed=discord.Embed(title="깃헙", description=f"[서포트서버](https://discord.gg/Jk6VRvsnqa) \n[짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot) \n옵션&생일&입장메시지&레벨링&초대정보&하트인증등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다. \n[하린봇깃헙](https://github.com/spacedev-official/harin)", colour=discord.Colour.random())
+        embed=discord.Embed(title="깃헙", description=f"[서포트서버](https://discord.gg/Jk6VRvsnqa) \n[짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot) \n옵션&생일&입장메시지&메일&레벨링&초대정보&하트인증등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다. \n[하린봇깃헙](https://github.com/spacedev-official/harin)", colour=discord.Colour.random())
         await ctx.send(embed=embed)
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
@@ -36,7 +44,7 @@ class general(commands.Cog):
             title="초대해줘서 고마워요!",
             description="""
 짱구봇을 초대주셔서 감사드립니다.
-짱구봇은 유저 친화적이며 다기능봇입니다.
+짱구봇은 편한시스템을 가지고 있는 짱구입니다.
 도움말은 `짱구야 도움`,
 프리픽스는 `짱구야 `,`짱구야`,`ㄱ `,`ㄱ` 입니다.            
 """
@@ -54,14 +62,7 @@ class general(commands.Cog):
             description=f"{guild.name}({guild.id})에 접속함\n서버수 : {len(self.bot.guilds)}"
         )
         await self.bot.get_channel(915551578730164234).send(embed=em)
-    @commands.command(name="출처")
-    async def chul(self, ctx):
-        embed=discord.Embed(name="깃헙", dscription=f"""
-[서포트서버](https://discord.gg/Jk6VRvsnqa)
-[짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot)
-옵션&생일&입장메시지&레벨링&초대정보등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다.
-[하린봇깃헙](https://github.com/spacedev-official/harin)        
-        """, colour=discord.Colour.random)
+
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         await self.bot.change_presence(status=discord.Status.online,
@@ -108,6 +109,7 @@ class general(commands.Cog):
             color= 0x0000ff
         ).set_thumbnail(url="https://cdn.discordapp.com/icons/915551354800451616/f27061c35e3f1dc203b3564cd864e99a.webp?size=96")        
         embed.timestamp = datetime.datetime.utcnow()
+        embed.add_field(name="서버", value=f"{ctx.guild.name} 에서 사용됨")
         await channel.send(embed=embed)
 def setup(bot):
     bot.add_cog(general(bot))

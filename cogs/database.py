@@ -32,7 +32,40 @@ class Database(commands.Cog, name = "봇 경제 명령어", description = "봇 �
     def __init__(self, bot):
         self.bot = bot
 
+    async def cog_before_invoke(self, ctx: commands.Context):
+        print(ctx.command)
+        if ctx.command.name != '메일':
+            database = await aiosqlite.connect("db/db.sqlite")
+            cur = await database.execute(
+                'SELECT * FROM uncheck WHERE user_id = ?', (ctx.author.id,)
+            )
 
+            if await cur.fetchone() is None:
+                cur = await database.execute("SELECT * FROM mail")
+                mails = await cur.fetchall()
+                check = sum(1 for _ in mails)
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {check}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                return await ctx.send(embed=mal)
+            cur = await database.execute('SELECT * FROM mail')
+            mails = await cur.fetchall()
+            check = sum(1 for _ in mails)
+            # noinspection DuplicatedCode
+            cur = await database.execute("SELECT * FROM uncheck WHERE user_id = ?", (ctx.author.id,))
+            # noinspection DuplicatedCode
+            check2 = await cur.fetchone()
+            if str(check) != str(check2[1]):
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {int(check) - int(check2[1])}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                await ctx.send(embed=mal)
 
     @commands.command(name = f'가입')
     async def data_join(self, ctx):
@@ -225,19 +258,21 @@ class Database(commands.Cog, name = "봇 경제 명령어", description = "봇 �
                 getmoney = int(money) * -1
                 lostmoney = int(money)
 
-                                #await ctx.send(f"{data}")
+                                #await ctx.send(f"{data}") # 유일하게 여기만 user에 노란줄이 없음 왜이럴까
             print(original_money)
             print(getmoney, date[0])
             print(type(original_money))
-            # print(type(getmoney, date[0])) 
+            # print(type(getmoney, date[0])) # 얘는 안나오잖아 아 뭔지 알았어
             print((int(original_money) + int(getmoney)))
             print(type(int(original_money) + int(getmoney)))
+                # ? 잠만 왜 저게 getmoney, date 두개가 한개 안에 들어가있어
             try:
-                cur.execute("UPDATE USERS SET money = ? WHERE id = ?",(int(original_money) + int(getmoney),ctx.author.id)) 
+                cur.execute("UPDATE USERS SET money = ? WHERE id = ?",(int(original_money) + int(getmoney),ctx.author.id)) # ㅌㅌ ?
             except:
                 print(traceback.format_exc())
-                #cur.execute("UPDATE USERS SET username = ? WHERE id = ?",(getmoney,date[0]))
-                    #cur.execute(f'UPDATE USERS SET MONEY = {user[2] + getmoney} WHERE id =\'{user[0]}\'')
+                #cur.execute("UPDATE USERS SET username = ? WHERE id = ?",(getmoney,date[0])) # 하셈
+                    #cur.execute(f'UPDATE USERS SET MONEY = {user[2] + getmoney} WHERE id =\'{user[0]}\'') # 위에서는 user에서 노란줄이 뜨는데 여기만 안떠
+                    # 실행해봐
             con.commit()
 
             if on == 1:
