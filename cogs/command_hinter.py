@@ -6,9 +6,9 @@ from discord.ext import commands
 
 
 def random_chat(suggest):
-    chatlist = [f"혹시 `천상아 {suggest}`를 사용하시려고 한건가요?",
-                f"그 명령어는 없는데 `천상아 {suggest}`로 사용해보세요!",
-                f"한번 `천상아 {suggest}`로 명령해보세요!"]
+    chatlist = [f"혹시 `짱구야 {suggest}`를 사용하시려고 한건가요?",
+                f"그 명령어는 없는데 `짱구야 {suggest}`로 사용해보세요!",
+                f"한번 `짱구야 {suggest}`로 명령해보세요!"]
     return random.choice(chatlist)
 
 

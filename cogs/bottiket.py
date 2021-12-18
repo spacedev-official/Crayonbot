@@ -10,12 +10,13 @@ import datetime
 ticket_guild_id = 915551354800451616
 category_id = 915561810411814973
 close_ticket_category_id = 915561835267231774
+
 # 오류 ~~~~ 37라인
 
 class question(commands.Cog): # 야이 미친놈아 command.Cog가 뭐냐
     def __init__(self, bot):
         self.bot = bot
-
+    
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         ctx = await self.bot.get_context(message)
@@ -124,7 +125,6 @@ class question(commands.Cog): # 야이 미친놈아 command.Cog가 뭐냐
                     await message.add_reaction("✅")
             except:
                 pass
-
     @commands.command(name="문의종료", aliases=["종료", "close"])
     @commands.has_permissions(administrator=True)
     async def ticket_end(self, ctx):

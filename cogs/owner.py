@@ -8,11 +8,10 @@ from discord.ext.menus import Button
 from discord_components import component
 from discord_components import Button, ButtonStyle, SelectOption, Select
 import pytz
+import aiosqlite
+import discordSuperUtils
 import datetime
-
-ticket_guild_id = 856829534926143538
-category_id = 890151936819617822
-close_ticket_category_id = 895287042882281532
+from PycordPaginator import Paginator
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -99,7 +98,93 @@ class Owner(commands.Cog):
             except discord.Forbidden:
                 failed += 1
         await msg.edit("발송완료!\n성공: `{ok}`\n실패: `{no}`".format(ok=success, no=failed))
-
+    @commands.group(name="블랙",invoke_without_command=True)
+    async def blacklist(self,ctx:commands.Context):
+        database = await aiosqlite.connect("db/db.sqlite")
+        cur = await database.execute("SELECT * FROM black WHERE user = ?", (ctx.author.id,))
+        if await cur.fetchone() == None:
+            return await ctx.reply(f"{ctx.author}님은 블랙리스트에 등록되어있지 않아요.")
+        data = await cur.fetchone()
+        await ctx.reply(f"블랙사유: {data[1]}")
+    @blacklist.command(name= '추가', aliases=['black','블랙','blackadd'])
+    @commands.is_owner()
+    async def mod_black(self, ctx, user_id:int,*,reason):
+        user = await self.bot.fetch_user(user_id)
+        db = await aiosqlite.connect("db/db.sqlite")
+        cur = await db.execute("SELECT * FROM black WHERE user = ?", (user_id,))
+        datas = await cur.fetchone()
+        if datas != None:
+            embed = discord.Embed(
+                title = f"블랙",
+                description = f"{user}님은 블랙리스트에 등록되어있어요. \n사유: {datas[1]}",
+                colour = discord.Colour.random(),
+                timestamp = ctx.message.created_at
+            )
+            await ctx.send(embed=embed)
+        await db.execute("INSERT INTO black(user,reason,username) VALUES (?,?,?)", (user_id, reason, user.name))
+        await db.commit()
+        embed2=discord.Embed(
+            title="블랙",
+            description = f"__봇관리자로 부터 블랙 등록되었음을 알려드립니다__ \n\n 관리자가 아래의 사유로 블랙을 등록하셨어요.\n\n 사유 : {reason}",
+            colour=discord.Colour.random() )
+       
+        try:
+            await user.send(embed=embed2)
+        except:
+            pass
+        await ctx.reply("등록완료!")
+    @blacklist.command(name= '삭제', aliases=['blackdel','제거'])
+    @commands.is_owner()
+    async def mod_black_del(self, ctx, user_id:int):
+        user = await self.bot.fetch_user(user_id)
+        db = await aiosqlite.connect("db/db.sqlite")
+        cur = await db.execute("SELECT * FROM black WHERE user = ?", (user_id,))
+        datas = await cur.fetchone()
+        embed=discord.Embed(title="블랙", description=f"{user}님은 블랙리스트에 등록되어있지않아요.",colour=discord.Colour.random())
+        if datas ==  None:
+            return await ctx.send(embed=embed)
+        await db.execute("DELETE FROM black WHERE user = ?", (user_id,))
+        await db.commit()
+        embed2=discord.Embed(title="블랙", description="__봇 관리자로부터 블랙해제됨.__\n\n 봇관리자가 블랙해제하셨어요.",colour=discord.Colour.random())
+        try:
+            await user.send(embed=embed2)
+        except:
+            print
+        await ctx.reply("해제완료")
+    @blacklist.command(name= '목록')
+    @commands.is_owner()
+    async def mod_black_jo(self, ctx):
+        database = await aiosqlite.connect("db/db.sqlite")
+        cur = await database.execute("SELECT * FROM black")
+        datas = await cur.fetchall()
+        black_list = []
+        for i in datas:
+            black_list.append(f"```유저아이디|{i[0]} \n사유|{i[1]} \n이름|{i[2]}```")       
+        e = Paginator(
+                client=self.bot.components_manager,
+                embeds=discordSuperUtils.generate_embeds(
+                    black_list,
+                    title=f"블랙목록에 유저들이 등록되어있어요.",
+                    fields=10,
+                    description="```블랙해제를 하실거면 \n짱구야 블랙 제거 [유저아이디]를 해주시면 됩니다!```",
+                ),
+                channel=ctx.channel,
+                only=ctx.author,
+                ctx=ctx,
+                use_select=False)
+        await e.start()
+            #await ctx.send(templates[1])
+    @blacklist.command(name= '초기화', aliases=["reset"])
+    @commands.is_owner()
+    async def black_rest(self, ctx):
+        db = await aiosqlite.connect("db/db.sqlite")
+        await db.execute("DELETE FROM black")
+        await db.commit()
+        
+        cur = await db.execute("SELECT * FROM black")
+        datas = await cur.fetchall()
+        if datas != None:
+            await ctx.reply("초기화 완료")
 
     
         # for i in self.bot.guilds:

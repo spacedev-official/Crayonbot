@@ -5,7 +5,7 @@ import discord
 from discord import colour
 import discordSuperUtils
 from discord.ext import commands
-
+import aiosqlite
 from cogs.util import util
 # 1️⃣ 키캡 디지트 원
 # 2️⃣ 키캡 숫자 2
@@ -25,7 +25,41 @@ class help(commands.Cog):
         self.ImageManager = discordSuperUtils.ImageManager()
 
 
-    
+    async def cog_before_invoke(self, ctx: commands.Context):
+        print(ctx.command)
+        if ctx.command.name != '메일':
+            database = await aiosqlite.connect("db/db.sqlite")
+            cur = await database.execute(
+                'SELECT * FROM uncheck WHERE user_id = ?', (ctx.author.id,)
+            )
+
+            if await cur.fetchone() is None:
+                cur = await database.execute("SELECT * FROM mail")
+                mails = await cur.fetchall()
+                check = sum(1 for _ in mails)
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {check}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                return await ctx.send(embed=mal)
+            cur = await database.execute('SELECT * FROM mail')
+            mails = await cur.fetchall()
+            check = sum(1 for _ in mails)
+            # noinspection DuplicatedCode
+            cur = await database.execute("SELECT * FROM uncheck WHERE user_id = ?", (ctx.author.id,))
+            # noinspection DuplicatedCode
+            check2 = await cur.fetchone()
+            if str(check) != str(check2[1]):
+                mal = discord.Embed(
+                    title=f'📫짱구의 메일함 | {int(check) - int(check2[1])}개 수신됨',
+                    description="아직 읽지 않은 메일이 있어요.'`짱구야 메일`'로 확인하세요.\n주기적으로 메일함을 확인해주세요! 소소한 업데이트 및 이벤트개최등 여러소식을 확인해보세요.",
+                    colour=ctx.author.colour,
+                )
+
+                await ctx.send(embed=mal)
+
     @commands.command(name="도움말", aliases=['도움'])
     async def pagination(self, ctx):
         global embeds
@@ -46,11 +80,11 @@ class help(commands.Cog):
 
 ``문의는 봇DM으로 해주시면 감사합니다!``
 
-[서포트서버](https://discord.gg/Jk6VRvsnqa)
+[서포트서버](https://discord.gg/294KSUxcz2)
 [짱구봇 초대](https://discord.com/api/oauth2/authorize?client_id=915546504054333450&permissions=8&scope=bot)
 옵션&생일&입장메시지&레벨링&초대정보등의 코드는 팀에서 개발된 하린봇의 코드를 사용했음을 알려드립니다.
 [하린봇깃헙](https://github.com/spacedev-official/harin)
-            
+``짱구야 하트인증``  한번씩해주세요!
         """,
         colour=discord.Colour.random()
         )
