@@ -4,6 +4,7 @@
 <p align="center">
   <b>🔗 Some Links 🔗</b><br>
   <a href="https://discord.gg/Jk6VRvsnqa">Official Support Server</a>
+  <a href="https://koreanbots.dev/bots/915546504054333450/vote">Vote</a>
   <br><br>
   <img src="https://cdn.discordapp.com/attachments/915556934977998879/915638949031055390/93b162fb8e850c1a.png">
 </p>
