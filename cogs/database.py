@@ -201,7 +201,7 @@ class Database(commands.Cog, name = "봇 경제 명령어", description = "봇 �
             except:
                 print(traceback.format_exc())
         else:
-            await ctx.reply()
+            await ctx.reply("돈을 음수로 주거나 봇에게 줄 수 없어요.")
     @commands.command(name = f'지원금', aliases = ['ㅈㅇㄱ'])
     async def data_givemoney(self, ctx):
         try:
