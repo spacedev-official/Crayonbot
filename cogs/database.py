@@ -178,27 +178,30 @@ class Database(commands.Cog, name = "봇 경제 명령어", description = "봇 �
         name= "송금",
     )
     async def songgm(self, ctx, member: discord.Member, money: int):
-        try:
-            database = await aiosqlite.connect("db/db.sqlite")
-            cur1=await database.execute(f"SELECT * FROM USERS WHERE id=\'{ctx.author.id}\'")
-            cur2=await database.execute(f"SELECT * FROM USERS WHERE id=\'{member.id}\'")
-            datas = await cur1.fetchall()
-            datas1 = await cur2.fetchall()
-            embed=discord.Embed(title="송금완료", description = f"송금된 돈: {money}", colour=discord.Colour.random())
-            for user in datas:
-                # await database.execute(f"UPDATE USERS SET money={user[2] + money} WHERE id=\'{member.id}\'")
-                # await asyncio.sleep(2)
-                await database.execute(f"UPDATE USERS SET money={user[2] - money} WHERE id=\'{ctx.author.id}\'")
-                await database.commit()
-                embed.add_field(name=f"보낸 사람: {ctx.author.name}", value=f" 현재 돈: {user[2]}")
-            for user in datas1:
-                await database.execute(f"UPDATE USERS SET money={user[2] + money} WHERE id=\'{member.id}\'")
-                await database.commit()
-                embed.add_field(name=f"받은 사람: {member.name}" , value=f" 현재돈: {user[2]}")
-            
-            await ctx.reply(embed=embed)
-        except:
-            print(traceback.format_exc())
+        if money > 0 or member.bot is True:
+            try:
+                database = await aiosqlite.connect("db/db.sqlite")
+                cur1=await database.execute(f"SELECT * FROM USERS WHERE id=\'{ctx.author.id}\'")
+                cur2=await database.execute(f"SELECT * FROM USERS WHERE id=\'{member.id}\'")
+                datas = await cur1.fetchall()
+                datas1 = await cur2.fetchall()
+                embed=discord.Embed(title="송금완료", description = f"송금된 돈: {money}", colour=discord.Colour.random())
+                for user in datas:
+                    # await database.execute(f"UPDATE USERS SET money={user[2] + money} WHERE id=\'{member.id}\'")
+                    # await asyncio.sleep(2)
+                    await database.execute(f"UPDATE USERS SET money={user[2] - money} WHERE id=\'{ctx.author.id}\'")
+                    await database.commit()
+                    embed.add_field(name=f"보낸 사람: {ctx.author.name}", value=f" 현재 돈: {user[2]}")
+                for user in datas1:
+                    await database.execute(f"UPDATE USERS SET money={user[2] + money} WHERE id=\'{member.id}\'")
+                    await database.commit()
+                    embed.add_field(name=f"받은 사람: {member.name}" , value=f" 현재돈: {user[2]}")
+                
+                await ctx.reply(embed=embed)
+            except:
+                print(traceback.format_exc())
+        else:
+            await ctx.reply("돈을 음수로 주거나 봇에게 줄 수 없어요.")
     @commands.command(name = f'지원금', aliases = ['ㅈㅇㄱ'])
     async def data_givemoney(self, ctx):
         try:
