@@ -9,7 +9,7 @@
   <a href="https://discord.gg/Jk6VRvsnqa">Official Support Server</a> 🔗
   <a href="https://koreanbots.dev/bots/915546504054333450/vote">Vote</a>
   <br><br>
-  <img src="https://cdn.discordapp.com/attachments/915556934977998879/915638949031055390/93b162fb8e850c1a.png">
+  <img src="https://cdn.discordapp.com/attachments/921555509935480853/921555519578189834/c265877614d80026.png?width=400&height=144">
 </p>
 
 # 📜 봇이름
